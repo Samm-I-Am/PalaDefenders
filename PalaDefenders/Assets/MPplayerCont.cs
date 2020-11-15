@@ -15,6 +15,9 @@ public class MPplayerCont : MonoBehaviour
     private float maxJumps;
     public float gravity;
 
+    // Animator Controller
+    private Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +27,9 @@ public class MPplayerCont : MonoBehaviour
         moveSpeed = 5f;
         doubleJump = 0f;
         gravity = -2f;
+
+        //Animator
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -58,6 +64,16 @@ public class MPplayerCont : MonoBehaviour
             rbody.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
         }
         rbody.AddForce(Vector3.up * gravity, ForceMode.Acceleration);
+
+
+        // Animator
+        float moveInput = Input.GetAxisRaw("Horizontal");
+
+        // Checks to see if character is moving, changes state from idle to/from running
+        if (moveInput == 0)
+            anim.SetBool("isRunning", false);
+        else
+            anim.SetBool("isRunning", true);
 
     }
 

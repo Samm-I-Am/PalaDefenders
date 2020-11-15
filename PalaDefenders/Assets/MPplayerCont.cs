@@ -71,8 +71,11 @@ public class MPplayerCont : MonoBehaviour
         }
         rbody.AddForce(Vector3.up * gravity, ForceMode.Acceleration);
 
+        // Left mouse click, swing sword
+        if (Input.GetButtonDown("Fire1"))
+            Attack();
 
-        // Animator
+        // Animator for running
         float moveInput = Input.GetAxisRaw("Horizontal");
 
         // Checks to see if character is moving, changes state from idle to/from running
@@ -83,4 +86,15 @@ public class MPplayerCont : MonoBehaviour
 
     }
 
+    // Function for attacking enemies
+    void Attack()
+    {
+        anim.SetTrigger("Attack");
+
+        // Detect enemies in sight
+
+
+
+
+    }
 }

@@ -50,16 +50,22 @@ public class MPplayerCont : MonoBehaviour
             if (Physics.CheckSphere(feet.position, 0.1f, ground))
             {
                 doubleJump = 0;
+                anim.SetBool("isJumping", false);
                 return true;
             }
             else
             {
+                anim.SetBool("isJumping", true);
                 return false;
             }
         }
 
         if (Input.GetButtonDown("Jump") && (isGrounded() || doubleJump < maxJumps))
         {
+            // Jump animation
+            anim.SetTrigger("jump");
+
+
             doubleJump += 1;
             rbody.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
         }

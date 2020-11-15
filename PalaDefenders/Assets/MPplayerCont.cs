@@ -19,9 +19,9 @@ public class MPplayerCont : MonoBehaviour
     void Start()
     {
         rbody = GetComponent<Rigidbody>();
-        jumpHeight = 20f;
+        jumpHeight = 10f;
         maxJumps = 1f;
-        moveSpeed = 20f;
+        moveSpeed = 5f;
         doubleJump = 0f;
         gravity = -2f;
     }

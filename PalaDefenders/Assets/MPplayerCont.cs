@@ -18,6 +18,11 @@ public class MPplayerCont : MonoBehaviour
     // Animator Controller
     private Animator anim;
 
+    // Attacking components
+    public Transform attackPoint;
+    public float attackRange;
+    public LayerMask enemyLayers;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +35,9 @@ public class MPplayerCont : MonoBehaviour
 
         //Animator
         anim = GetComponent<Animator>();
+
+        // Attacking
+        attackRange = 0.5f;
     }
 
     // Update is called once per frame
@@ -92,9 +100,24 @@ public class MPplayerCont : MonoBehaviour
         anim.SetTrigger("Attack");
 
         // Detect enemies in sight
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
+        // Damage enemies
+        foreach(Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("we hit " + enemy.name);
 
+        }
 
+    }
 
+    // Visually see sphere of attack point
+    void OnDrawGizmosSelected()
+    {
+        // Attack point already selected
+        if (attackPoint == null)
+            return;
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

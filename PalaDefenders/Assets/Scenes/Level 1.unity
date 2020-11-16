@@ -10127,6 +10127,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: paladin
       objectReference: {fileID: 0}
+    - target: {fileID: 132095640747080336, guid: fe08ab4d837a33e4aab93b6d0e18e03e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 253269665449031173, guid: fe08ab4d837a33e4aab93b6d0e18e03e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 765221496572026922, guid: fe08ab4d837a33e4aab93b6d0e18e03e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.0812001

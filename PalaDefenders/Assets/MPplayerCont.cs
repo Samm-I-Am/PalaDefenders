@@ -22,6 +22,9 @@ public class MPplayerCont : MonoBehaviour
     public Transform attackPoint;
     public float attackRange;
     public LayerMask enemyLayers;
+    public int attackDamage;
+    public float attackRate;
+    float nextAttackTime;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +41,9 @@ public class MPplayerCont : MonoBehaviour
 
         // Attacking
         attackRange = 0.5f;
+        attackDamage = 20;
+        attackRate = 2f;
+        nextAttackTime = 0f;
     }
 
     // Update is called once per frame
@@ -79,9 +85,18 @@ public class MPplayerCont : MonoBehaviour
         }
         rbody.AddForce(Vector3.up * gravity, ForceMode.Acceleration);
 
-        // Left mouse click, swing sword
-        if (Input.GetButtonDown("Fire1"))
-            Attack();
+        // Checks to see if next attack is possible
+        if(Time.time >= nextAttackTime)
+        {
+            // Left mouse click, swing sword
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Attack();
+                nextAttackTime = Time.time + 1f / attackRate;
+            }
+        }
+
+        
 
         // Animator for running
         float moveInput = Input.GetAxisRaw("Horizontal");
@@ -100,12 +115,15 @@ public class MPplayerCont : MonoBehaviour
         anim.SetTrigger("Attack");
 
         // Detect enemies in sight
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
 
         // Damage enemies
-        foreach(Collider2D enemy in hitEnemies)
+        foreach(Collider enemy in hitEnemies)
         {
-            Debug.Log("we hit " + enemy.name);
+            //Debug.Log("we hit " + enemy.name);
+
+            // Passes damage to minion
+            enemy.GetComponent<Minion>().TakeDamage(attackDamage);
 
         }
 

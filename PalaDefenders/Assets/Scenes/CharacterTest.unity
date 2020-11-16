@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 564015178bbbde04a987eda4fc1931b4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.005
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 564015178bbbde04a987eda4fc1931b4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -292,7 +292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 564015178bbbde04a987eda4fc1931b4, type: 3}
       propertyPath: m_Name
-      value: castle_guard_01@Standing Idle
+      value: castle Guard
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 564015178bbbde04a987eda4fc1931b4, type: 3}
       propertyPath: m_Layer
@@ -643,6 +643,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 564015178bbbde04a987eda4fc1931b4, type: 3}
   m_PrefabInstance: {fileID: 76174664}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1397187140 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 564015178bbbde04a987eda4fc1931b4, type: 3}
+  m_PrefabInstance: {fileID: 76174664}
+  m_PrefabAsset: {fileID: 0}
 --- !u!65 &1397187142
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -656,6 +661,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &1397187143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397187139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4132d96ba0f036442a746f0c7243b876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1397187140}
+  maxHealth: 0
 --- !u!850595691 &1650016934
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -852,7 +871,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4021768058546538861, guid: 81b563e3eae983f478076a34a5ef7317, type: 3}
       propertyPath: m_Name
-      value: paladin_prop_j_nordstrom@Standing Melee Combo Attack Ver. 1
+      value: paladin
       objectReference: {fileID: 0}
     - target: {fileID: 4256281444451253538, guid: 81b563e3eae983f478076a34a5ef7317, type: 3}
       propertyPath: attackPoint
@@ -860,7 +879,7 @@ PrefabInstance:
       objectReference: {fileID: 1141716980}
     - target: {fileID: 4256281444451253538, guid: 81b563e3eae983f478076a34a5ef7317, type: 3}
       propertyPath: attackRange
-      value: 0.53
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 4256281444451253538, guid: 81b563e3eae983f478076a34a5ef7317, type: 3}
       propertyPath: enemyLayers.m_Bits

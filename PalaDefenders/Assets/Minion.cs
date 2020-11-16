@@ -5,8 +5,14 @@ using UnityEngine;
 public class Minion : MonoBehaviour
 {
     public Animator animator;
+
+    //health variables
     public int maxHealth;
-    int currentHealth;
+    public int currentHealth;
+
+    //delegate and event functions
+    public delegate void minionDeath();
+    public static event minionDeath minionDied;
 
     // Start is called before the first frame update
     void Start()
@@ -19,16 +25,17 @@ public class Minion : MonoBehaviour
         // Change health based on damage
         currentHealth -= damage;
 
-        animator.SetTrigger("Hurt");
 
         if (currentHealth <= 0)
             Die();
-
+        else
+            animator.SetTrigger("Hurt");
     }
 
     void Die()
     {
-        Debug.Log("Minion died!");
+        //declares this event to eventManager
+        minionDied();
 
         // Die animations
         animator.SetBool("isDead", true);

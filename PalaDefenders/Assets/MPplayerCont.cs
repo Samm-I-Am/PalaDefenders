@@ -5,9 +5,14 @@ using UnityEngine;
 public class MPplayerCont : MonoBehaviour
 {
     Rigidbody rbody;
+
+    //level up effects
+    public GameObject levelUpParticle;
+    public Transform particleSpawn;
+    
+    //movement variables
     public LayerMask ground;
     public Transform feet;
-
     public float jumpHeight;
     private Vector3 direction;
     private float moveSpeed;
@@ -18,13 +23,27 @@ public class MPplayerCont : MonoBehaviour
     // Animator Controller
     private Animator anim;
 
-    // Attacking components
+    // Attacking variables
     public Transform attackPoint;
     public float attackRange;
     public LayerMask enemyLayers;
     public int attackDamage;
     public float attackRate;
     float nextAttackTime;
+
+    //when object is enabled...
+    //assigns the playerLevelUp function to the LevelUp event from eventManager
+    private void OnEnable()
+    {
+        eventManager.levelUp += playerLevelUp;
+    }
+
+    //when object is disabled...
+    //removes the playerLevelUp function from the LevelUp event from eventManager 
+    private void OnDisable()
+    {
+        eventManager.levelUp -= playerLevelUp;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -129,7 +148,7 @@ public class MPplayerCont : MonoBehaviour
 
     }
 
-    // Visually see sphere of attack point
+    // Visually see sphere of attack point in scene view
     void OnDrawGizmosSelected()
     {
         // Attack point already selected
@@ -137,5 +156,11 @@ public class MPplayerCont : MonoBehaviour
             return;
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    //is called when eventManager.levelUp event is called
+    void playerLevelUp()
+    {
+        Instantiate(levelUpParticle, particleSpawn.position, Quaternion.identity);
     }
 }

@@ -41,7 +41,7 @@ public class MPplayerCont : MonoBehaviour
 
         // Attacking
         attackRange = 0.5f;
-        attackDamage = 20;
+        attackDamage = 50;
         attackRate = 2f;
         nextAttackTime = 0f;
     }

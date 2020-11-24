@@ -97,7 +97,6 @@ Transform:
   - {fileID: 1246972291995949039}
   - {fileID: 8448933395674847226}
   - {fileID: 8783213261733231300}
-  - {fileID: 1764959104098463455}
   - {fileID: 942419560551633292}
   - {fileID: 942419560962571759}
   m_Father: {fileID: 0}
@@ -164,6 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed66c09030918134887dbe0e5597e98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelUpParticle: {fileID: 0}
+  particleSpawn: {fileID: 0}
   ground:
     serializedVersion: 2
     m_Bits: 256
@@ -177,6 +178,7 @@ MonoBehaviour:
     m_Bits: 512
   attackDamage: 0
   attackRate: 0
+  weapon: {fileID: 0}
 --- !u!1 &147757486911428195
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +592,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 765221496572026922}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &942419560962571752
 GameObject:
@@ -620,7 +622,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 765221496572026922}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1053107271370452139
 GameObject:
@@ -2229,6 +2231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1764959104098463455}
   - component: {fileID: 337724961154114384}
+  - component: {fileID: 1651090384619132921}
   m_Layer: 0
   m_Name: Paladin_J_Nordstrom_Sword
   m_TagString: Untagged
@@ -2243,13 +2246,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7143921910673411892}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.6965765, y: 0.3188255, z: 0.26436618, w: 0.5858686}
+  m_LocalPosition: {x: 0.008106209, y: 0.08141707, z: 0.15826483}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 765221496572026922}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 2117655334329646045}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 44.47, y: 0, z: 0}
 --- !u!137 &337724961154114384
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -2303,6 +2306,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.06104034, y: -0.006658666, z: 0.30364954}
     m_Extent: {x: 0.15018216, y: 0.045836896, z: 0.50709105}
   m_DirtyAABB: 0
+--- !u!65 &1651090384619132921
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7143921910673411892}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.14780869, y: 1.0241389, z: 0.16614138}
+  m_Center: {x: -0.04231342, y: 0.19639799, z: 0.09105413}
 --- !u!1 &7235420613420097922
 GameObject:
   m_ObjectHideFlags: 0
@@ -2420,7 +2436,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.079892136, y: -0.028230647, z: -0.006267043}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1764959104098463455}
   m_Father: {fileID: 7762180789494458796}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

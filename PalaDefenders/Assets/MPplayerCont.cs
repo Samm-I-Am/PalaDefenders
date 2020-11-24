@@ -30,6 +30,7 @@ public class MPplayerCont : MonoBehaviour
     public int attackDamage;
     public float attackRate;
     float nextAttackTime;
+    public GameObject weapon;
 
     //when object is enabled...
     //assigns the playerLevelUp function to the LevelUp event from eventManager
@@ -115,8 +116,6 @@ public class MPplayerCont : MonoBehaviour
             }
         }
 
-        
-
         // Animator for running
         float moveInput = Input.GetAxisRaw("Horizontal");
 
@@ -133,7 +132,9 @@ public class MPplayerCont : MonoBehaviour
     {
         anim.SetTrigger("Attack");
 
-        // Detect enemies in sight
+
+
+        /*// Detect enemies in sight
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
 
         // Damage enemies
@@ -144,19 +145,31 @@ public class MPplayerCont : MonoBehaviour
             // Passes damage to minion
             enemy.GetComponent<Minion>().TakeDamage(attackDamage);
 
-        }
+        }*/
 
     }
 
+    //called by animation event to enable weapon at specific frames
+    public void enableWeapon()
+    {
+        weapon.GetComponent<Collider>().enabled = true;
+    }
+
+    //called by animation event to disable weapon at specific frames
+    public void disableWeapon()
+    {
+        weapon.GetComponent<Collider>().enabled = false;
+    }
+
     // Visually see sphere of attack point in scene view
-    void OnDrawGizmosSelected()
+    /*void OnDrawGizmosSelected()
     {
         // Attack point already selected
         if (attackPoint == null)
             return;
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }
+    }*/
 
     //is called when eventManager.levelUp event is called
     void playerLevelUp()

@@ -19,6 +19,7 @@ public class MPplayerCont : MonoBehaviour
     private float doubleJump;
     private float maxJumps;
     public float gravity;
+    private bool isGrounded;
 
     // Animator Controller
     private Animator anim;
@@ -79,25 +80,22 @@ public class MPplayerCont : MonoBehaviour
             //has to do with the physics timing and update timing not being synched up
             rbody.MovePosition(transform.position + direction * moveSpeed * Time.fixedDeltaTime);
         }
-        bool isGrounded()
+        if (Physics.CheckSphere(feet.position, 0.01f, ground))
         {
-            if (Physics.CheckSphere(feet.position, 0.1f, ground))
-            {
-                doubleJump = 0;
-                anim.SetBool("isJumping", false);
-                return true;
-            }
-            else
-            {
-                anim.SetBool("isJumping", true);
-                return false;
-            }
+            doubleJump = 0;
+            anim.SetBool("isJumping", false);
+        }
+        else
+        {
+            anim.SetBool("isJumping", true);
         }
 
-        if (Input.GetButtonDown("Jump") && (isGrounded() || doubleJump < maxJumps))
+        isGrounded = anim.GetBool("isJumping");
+        if (Input.GetButtonDown("Jump") && (isGrounded==true || doubleJump < maxJumps))
         {
             // Jump animation
             anim.SetTrigger("jump");
+            
 
 
             doubleJump += 1;

@@ -5,10 +5,6 @@ using UnityEngine;
 public class MPplayerCont : MonoBehaviour
 {
     Rigidbody rbody;
-
-    //level up effects
-    public GameObject levelUpParticle;
-    public Transform particleSpawn;
     
     //movement variables
     public LayerMask ground;
@@ -19,33 +15,18 @@ public class MPplayerCont : MonoBehaviour
     private float doubleJump;
     private float maxJumps;
     public float gravity;
-    private bool isGrounded;
+    public bool isJumping;
+    public bool isDefending;
 
     // Animator Controller
     private Animator anim;
 
     // Attacking variables
-    public Transform attackPoint;
-    public float attackRange;
     public LayerMask enemyLayers;
     public int attackDamage;
     public float attackRate;
-    float nextAttackTime;
+    float cooldown1;
     public GameObject weapon;
-
-    //when object is enabled...
-    //assigns the playerLevelUp function to the LevelUp event from eventManager
-    private void OnEnable()
-    {
-        eventManager.levelUp += playerLevelUp;
-    }
-
-    //when object is disabled...
-    //removes the playerLevelUp function from the LevelUp event from eventManager 
-    private void OnDisable()
-    {
-        eventManager.levelUp -= playerLevelUp;
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -61,15 +42,16 @@ public class MPplayerCont : MonoBehaviour
         anim = GetComponent<Animator>();
 
         // Attacking
-        attackRange = 0.5f;
         attackDamage = 50;
         attackRate = 2f;
-        nextAttackTime = 0f;
+        cooldown1 = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        isJumping = anim.GetBool("isJumping");
+        isDefending = anim.GetBool("isDefending");
         direction = Vector3.zero;
         direction.x = Input.GetAxis("Horizontal");
         direction = direction.normalized;
@@ -88,15 +70,13 @@ public class MPplayerCont : MonoBehaviour
         else
         {
             anim.SetBool("isJumping", true);
+            anim.SetBool("isDefending", false);
         }
 
-        isGrounded = anim.GetBool("isJumping");
-        if (Input.GetButtonDown("Jump") && (isGrounded==true || doubleJump < maxJumps))
+        if (Input.GetButtonDown("Jump") && (isJumping==false || doubleJump < maxJumps) && isDefending==false)
         {
             // Jump animation
             anim.SetTrigger("jump");
-            
-
 
             doubleJump += 1;
             rbody.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
@@ -104,14 +84,25 @@ public class MPplayerCont : MonoBehaviour
         rbody.AddForce(Vector3.up * gravity, ForceMode.Acceleration);
 
         // Checks to see if next attack is possible
-        if(Time.time >= nextAttackTime)
+        //
+        if(Time.time >= cooldown1)
         {
             // Left mouse click, swing sword
             if (Input.GetButtonDown("Fire1"))
             {
-                Attack();
-                nextAttackTime = Time.time + 1f / attackRate;
+                anim.SetTrigger("Attack1");
+                cooldown1 = Time.time + 1f / attackRate;
             }
+        }
+
+        if (Input.GetButton("Fire2") && isJumping == false)
+        {
+            anim.SetBool("isDefending", true);
+        }
+        
+        if (Input.GetButtonUp("Fire2"))
+        {
+            anim.SetBool("isDefending", false);
         }
 
         // Animator for running
@@ -125,28 +116,6 @@ public class MPplayerCont : MonoBehaviour
 
     }
 
-    // Function for attacking enemies
-    void Attack()
-    {
-        anim.SetTrigger("Attack");
-
-
-
-        /*// Detect enemies in sight
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
-
-        // Damage enemies
-        foreach(Collider enemy in hitEnemies)
-        {
-            //Debug.Log("we hit " + enemy.name);
-
-            // Passes damage to minion
-            enemy.GetComponent<Minion>().TakeDamage(attackDamage);
-
-        }*/
-
-    }
-
     //called by animation event to enable weapon at specific frames
     public void enableWeapon()
     {
@@ -157,21 +126,5 @@ public class MPplayerCont : MonoBehaviour
     public void disableWeapon()
     {
         weapon.GetComponent<Collider>().enabled = false;
-    }
-
-    // Visually see sphere of attack point in scene view
-    /*void OnDrawGizmosSelected()
-    {
-        // Attack point already selected
-        if (attackPoint == null)
-            return;
-
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }*/
-
-    //is called when eventManager.levelUp event is called
-    void playerLevelUp()
-    {
-        Instantiate(levelUpParticle, particleSpawn.position, Quaternion.identity);
     }
 }

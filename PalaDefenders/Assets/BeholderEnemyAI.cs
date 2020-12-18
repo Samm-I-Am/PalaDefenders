@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestEnemyAI : MonoBehaviour
+public class BeholderEnemyAI : MonoBehaviour
 {
-    public GameObject head;
     public GameObject rangeCheck;
     public GameObject attackCheck;
     public GameObject player;
@@ -17,7 +16,6 @@ public class ChestEnemyAI : MonoBehaviour
     public float health;
     private Vector3 direction;
     private Animator anim;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -59,7 +57,6 @@ public class ChestEnemyAI : MonoBehaviour
                 rbody.MovePosition(transform.position + direction * moveSpeed * Time.fixedDeltaTime);
             }
         }
-        
     }
 
     public void alerted()
@@ -76,7 +73,7 @@ public class ChestEnemyAI : MonoBehaviour
     public void TakeDamage(float takenDamage)
     {
         health -= takenDamage;
-        if(health < 0)
+        if (health < 0)
         {
             anim.SetTrigger("Dead");
         }
@@ -84,18 +81,6 @@ public class ChestEnemyAI : MonoBehaviour
         {
             anim.SetTrigger("Hurt");
         }
-        
-    }
 
-    //called by animation event to enable weapon at specific frames
-    public void enableHurtbox()
-    {
-        head.GetComponent<Collider>().enabled = true;
-    }
-
-    //called by animation event to disable weapon at specific frames
-    public void disableHurtbox()
-    {
-        head.GetComponent<Collider>().enabled = false;
     }
 }

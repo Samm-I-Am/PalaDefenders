@@ -20,6 +20,8 @@ public class ChestEnemyAI : MonoBehaviour
     public float health;
     private Vector3 direction;
     private Animator anim;
+    public delegate void minionDeath();
+    public static event minionDeath minionDied;
 
     // Start is called before the first frame update
     void Start()
@@ -84,6 +86,7 @@ public class ChestEnemyAI : MonoBehaviour
         {
             anim.SetTrigger("Dead");
             Instantiate(hitParticleEffect, this.transform);
+            minionDied();
             StartCoroutine(Explode());
         }
         else

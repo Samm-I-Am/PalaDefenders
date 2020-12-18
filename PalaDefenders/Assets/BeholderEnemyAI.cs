@@ -10,6 +10,8 @@ public class BeholderEnemyAI : MonoBehaviour
     public GameObject hitParticleEffect;
     public GameObject deathParticleEffect;
     public GameObject meshObject;
+    public GameObject projectileSpawn;
+    public GameObject projectile;
     public Rigidbody rbody;
     public float attackDamage;
     public float alertRange;
@@ -19,6 +21,8 @@ public class BeholderEnemyAI : MonoBehaviour
     public float health;
     private Vector3 direction;
     private Animator anim;
+    public delegate void minionDeath();
+    public static event minionDeath minionDied;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +65,11 @@ public class BeholderEnemyAI : MonoBehaviour
                 transform.forward = direction;
                 rbody.MovePosition(transform.position + direction * moveSpeed * Time.fixedDeltaTime);
             }
+
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            {
+                Instantiate(projectile, projectileSpawn.transform);
+            }
         }
     }
 
@@ -82,6 +91,7 @@ public class BeholderEnemyAI : MonoBehaviour
         {
             anim.SetTrigger("Dead");
             Instantiate(hitParticleEffect, this.transform);
+            minionDied();
             StartCoroutine(Explode());
         }
         else

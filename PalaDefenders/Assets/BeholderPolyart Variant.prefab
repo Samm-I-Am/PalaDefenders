@@ -163,13 +163,46 @@ MonoBehaviour:
   hitParticleEffect: {fileID: 100000, guid: 979632a27455af442bd2d8f36eb0ffce, type: 3}
   deathParticleEffect: {fileID: 1965343156803978, guid: aa8d6482d70a23445b4b2a928ed1b845, type: 3}
   meshObject: {fileID: 8862961170771213046}
+  projectileSpawn: {fileID: 7214773871952401828}
+  projectile: {fileID: 5462059576347977268, guid: 3b5f93110540c314a94c4eda48c77beb, type: 3}
   rbody: {fileID: 0}
+  tform: {fileID: 0}
   attackDamage: 0
   alertRange: 0
   attackingRange: 0
   playerXpos: 0
   moveSpeed: 0
   health: 0
+--- !u!1 &7214773871952401828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4207713799093032434}
+  m_Layer: 9
+  m_Name: projectileSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4207713799093032434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214773871952401828}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.402, z: 0.527}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8862961170770978516}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &572060567511214535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -223,7 +256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9011648103021171507, guid: 8d791e7885d8c11418ff9fcd9552c337, type: 3}
       propertyPath: m_Name
-      value: BeholderPolyart
+      value: BeholderPolyart Variant
       objectReference: {fileID: 0}
     - target: {fileID: 9011648103021171507, guid: 8d791e7885d8c11418ff9fcd9552c337, type: 3}
       propertyPath: m_Layer

@@ -19,6 +19,7 @@ public class MPplayerCont : MonoBehaviour
     public bool isJumping;
     public bool isDefending;
     private bool isDead;
+    private AudioSource sliceSound;
 
     // Animator Controller
     private Animator anim;
@@ -40,6 +41,8 @@ public class MPplayerCont : MonoBehaviour
         moveSpeed = 5f;
         doubleJump = 0f;
         gravity = -2f;
+        sliceSound = GetComponent<AudioSource>();
+
 
         //Animator
         anim = GetComponent<Animator>();
@@ -99,7 +102,8 @@ public class MPplayerCont : MonoBehaviour
                 if (Input.GetButtonDown("Fire1"))
                 {
                     anim.SetTrigger("Attack1");
-                    cooldown1 = Time.time + 1f / attackRate;
+                    sliceSound.Play();
+                    cooldown1 = Time.time + (1f / attackRate);
                 }
             }
 

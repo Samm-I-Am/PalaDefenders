@@ -13,34 +13,33 @@ public class eventManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        minionCount = 4;
+        minionCount = 8;
     }
 
     //when object is enabled...
     //assigns countUpdate function to the minionDied event from Minion
     private void OnEnable()
     {
-        Minion.minionDied += countUpdate;
+        ChestEnemyAI.minionDied += countUpdate;
+        BeholderEnemyAI.minionDied += countUpdate;
     }
 
     //when object is disabled...
     //removes countUpdate function from the minionDied event from Minion
     private void OnDisable()
     {
-        Minion.minionDied -= countUpdate;
+        ChestEnemyAI.minionDied -= countUpdate;
+        BeholderEnemyAI.minionDied += countUpdate;
     }
 
     //declares levelUp event when conditions are met
     void countUpdate()
     {
         minionCount -= 1;
-        if (minionCount == 1)
+        if (minionCount == 0)
         {
-            levelUp();
+            Application.Quit();
         }
-        else if (minionCount == 0)
-        {
-            levelUp();
-        }
+
     }
 }

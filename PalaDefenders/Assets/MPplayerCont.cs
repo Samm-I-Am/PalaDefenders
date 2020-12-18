@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class MPplayerCont : MonoBehaviour
 {
-    Rigidbody rbody;
+    public Rigidbody rbody;
     
     //movement variables
     public LayerMask ground;
     public Transform feet;
     public float jumpHeight;
     private Vector3 direction;
+    private float health;
     private float moveSpeed;
     private float doubleJump;
     private float maxJumps;
     public float gravity;
     public bool isJumping;
     public bool isDefending;
+    private bool isDead;
 
     // Animator Controller
     private Animator anim;
@@ -32,6 +34,7 @@ public class MPplayerCont : MonoBehaviour
     void Start()
     {
         rbody = GetComponent<Rigidbody>();
+        health = 100f;
         jumpHeight = 10f;
         maxJumps = 1f;
         moveSpeed = 5f;
@@ -50,69 +53,90 @@ public class MPplayerCont : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isJumping = anim.GetBool("isJumping");
-        isDefending = anim.GetBool("isDefending");
-        direction = Vector3.zero;
-        direction.x = Input.GetAxis("Horizontal");
-        direction = direction.normalized;
-        if (direction != Vector3.zero)
+        isDead = anim.GetBool("Dead");
+        if(isDead==true)
         {
-            transform.forward = direction;
-            //changed to fixedDeltaTime to fix jittering while moving
-            //has to do with the physics timing and update timing not being synched up
-            rbody.MovePosition(transform.position + direction * moveSpeed * Time.fixedDeltaTime);
-        }
-        if (Physics.CheckSphere(feet.position, 0.01f, ground))
-        {
-            doubleJump = 0;
-            anim.SetBool("isJumping", false);
+            return;
         }
         else
         {
-            anim.SetBool("isJumping", true);
-            anim.SetBool("isDefending", false);
-        }
-
-        if (Input.GetButtonDown("Jump") && (isJumping==false || doubleJump < maxJumps) && isDefending==false)
-        {
-            // Jump animation
-            anim.SetTrigger("jump");
-
-            doubleJump += 1;
-            rbody.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-        }
-        rbody.AddForce(Vector3.up * gravity, ForceMode.Acceleration);
-
-        // Checks to see if next attack is possible
-        //
-        if(Time.time >= cooldown1)
-        {
-            // Left mouse click, swing sword
-            if (Input.GetButtonDown("Fire1"))
+            isJumping = anim.GetBool("isJumping");
+            isDefending = anim.GetBool("isDefending");
+            direction = Vector3.zero;
+            direction.x = Input.GetAxis("Horizontal");
+            direction = direction.normalized;
+            if (direction != Vector3.zero)
             {
-                anim.SetTrigger("Attack1");
-                cooldown1 = Time.time + 1f / attackRate;
+                transform.forward = direction;
+                //changed to fixedDeltaTime to fix jittering while moving
+                //has to do with the physics timing and update timing not being synched up
+                rbody.MovePosition(transform.position + direction * moveSpeed * Time.fixedDeltaTime);
             }
-        }
+            if (Physics.CheckSphere(feet.position, 0.01f, ground))
+            {
+                doubleJump = 0;
+                anim.SetBool("isJumping", false);
+            }
+            else
+            {
+                anim.SetBool("isJumping", true);
+                anim.SetBool("isDefending", false);
+            }
 
-        if (Input.GetButton("Fire2") && isJumping == false)
+            if (Input.GetButtonDown("Jump") && (isJumping == false || doubleJump < maxJumps) && isDefending == false)
+            {
+                // Jump animation
+                anim.SetTrigger("jump");
+
+                doubleJump += 1;
+                rbody.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
+            }
+            rbody.AddForce(Vector3.up * gravity, ForceMode.Acceleration);
+
+            // Checks to see if next attack is possible
+            //
+            if (Time.time >= cooldown1)
+            {
+                // Left mouse click, swing sword
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    anim.SetTrigger("Attack1");
+                    cooldown1 = Time.time + 1f / attackRate;
+                }
+            }
+
+            if (Input.GetButton("Fire2") && isJumping == false)
+            {
+                anim.SetBool("isDefending", true);
+            }
+
+            if (Input.GetButtonUp("Fire2"))
+            {
+                anim.SetBool("isDefending", false);
+            }
+
+            // Animator for running
+            float moveInput = Input.GetAxisRaw("Horizontal");
+
+            // Checks to see if character is moving, changes state from idle to/from running
+            if (moveInput == 0)
+                anim.SetBool("isRunning", false);
+            else
+                anim.SetBool("isRunning", true);
+        }
+    }
+    public void takeDamage(float takenDamage)
+    {
+        health -= takenDamage;
+        if (health > 0)
         {
-            anim.SetBool("isDefending", true);
+            anim.SetTrigger("Hurt");
+        }
+        else
+        {
+            anim.SetBool("Dead", true);
         }
         
-        if (Input.GetButtonUp("Fire2"))
-        {
-            anim.SetBool("isDefending", false);
-        }
-
-        // Animator for running
-        float moveInput = Input.GetAxisRaw("Horizontal");
-
-        // Checks to see if character is moving, changes state from idle to/from running
-        if (moveInput == 0)
-            anim.SetBool("isRunning", false);
-        else
-            anim.SetBool("isRunning", true);
 
     }
 

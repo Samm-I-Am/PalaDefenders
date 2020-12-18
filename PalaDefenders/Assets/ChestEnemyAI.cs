@@ -4,31 +4,88 @@ using UnityEngine;
 
 public class ChestEnemyAI : MonoBehaviour
 {
-    //Needs to interact similar to how the player character's sword did.
-    //There are collision boxes for this enemy's head and lower body,
-    //specifically under root/body , and root/body/head .
-    //The head collision box is treated as a trigger, while the other one is not.
-    //May have to assign box collider to the very top of the enemy object for
-    //movement purposes if it acts janky for the physics collisions.
-    //Head part will also need a script similar to meleeWeapon that handles overriding
-    //physics collisions, and dealing with onTriggerEnter events.
-
-    //Basic plan for chest enemy AI:
-    //Starts off standing in one spot, looking around.
-    //When player gets close, it switches to the alerted state, and then starts walking towards the player.
-    //When player gets in range for it to attack, it goes to the attackStartUp state, then the attack state, then alerted state, and back to walking.
-
     public GameObject head;
+    public GameObject rangeCheck;
+    public GameObject attackCheck;
+    public GameObject player;
+    public Rigidbody rbody;
+    public float attackDamage;
+    public float alertRange;
+    public float attackingRange;
+    public float playerXpos;
+    public float moveSpeed;
+    public float health;
+    private Vector3 direction;
+
+    // Animator Controller
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        health = 100f;
+        attackDamage = 10f;
+        alertRange = 10f;
+        attackingRange = 2.4f;
+        moveSpeed = 3f;
+        rbody = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (health < 0)
+        {
+            return;
+        }
+        else
+        {
+            playerXpos = player.transform.position.x;
+            direction = Vector3.zero;
+
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Alert"))
+            {
+                anim.SetBool("inAttackRange", false);
+            }
+
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Walking"))
+            {
+                attackCheck.GetComponent<Collider>().enabled = true;
+                //player is to the left of enemy
+                if (playerXpos < transform.position.x)
+                { direction = new Vector3(-1, 0, 0); }
+                else //player is to the right of enemy
+                { direction = new Vector3(1, 0, 0); }
+                transform.forward = direction;
+                rbody.MovePosition(transform.position + direction * moveSpeed * Time.fixedDeltaTime);
+            }
+        }
+        
+    }
+
+    public void alerted()
+    {
+        rangeCheck.GetComponent<Collider>().enabled = false;
+        anim.SetTrigger("alerted");
+    }
+
+    public void inAttackRange()
+    {
+        anim.SetBool("inAttackRange", true);
+    }
+
+    public void TakeDamage(float takenDamage)
+    {
+        health -= takenDamage;
+        if(health < 0)
+        {
+            anim.SetTrigger("Dead");
+        }
+        else
+        {
+            anim.SetTrigger("Hurt");
+        }
         
     }
 

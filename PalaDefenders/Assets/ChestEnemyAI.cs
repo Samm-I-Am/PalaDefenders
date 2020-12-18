@@ -19,8 +19,6 @@ public class ChestEnemyAI : MonoBehaviour
     public float moveSpeed;
     public float health;
     private Vector3 direction;
-
-    // Animator Controller
     private Animator anim;
 
     // Start is called before the first frame update

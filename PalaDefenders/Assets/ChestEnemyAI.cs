@@ -8,9 +8,6 @@ public class ChestEnemyAI : MonoBehaviour
     public GameObject rangeCheck;
     public GameObject attackCheck;
     public GameObject player;
-    public GameObject hitParticleEffect;
-    public GameObject deathParticleEffect;
-    public GameObject meshObject;
     public Rigidbody rbody;
     public float attackDamage;
     public float alertRange;
@@ -31,7 +28,6 @@ public class ChestEnemyAI : MonoBehaviour
         moveSpeed = 3f;
         rbody = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        
     }
 
     // Update is called once per frame
@@ -39,7 +35,7 @@ public class ChestEnemyAI : MonoBehaviour
     {
         if (health < 0)
         {
-            //do nothing
+            return;
         }
         else
         {
@@ -83,24 +79,12 @@ public class ChestEnemyAI : MonoBehaviour
         if(health < 0)
         {
             anim.SetTrigger("Dead");
-            Instantiate(hitParticleEffect, this.transform);
-            StartCoroutine(Explode());
         }
         else
         {
             anim.SetTrigger("Hurt");
-            Instantiate(hitParticleEffect, this.transform);
         }
         
-    }
-
-    public  IEnumerator Explode()
-    {
-        yield return new WaitForSeconds(1);
-        meshObject.GetComponent<SkinnedMeshRenderer>().enabled = false;
-        Instantiate(deathParticleEffect, this.transform);
-        Destroy(this, 2);
-        Destroy(gameObject, 2);
     }
 
     //called by animation event to enable weapon at specific frames

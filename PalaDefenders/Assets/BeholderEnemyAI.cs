@@ -7,6 +7,9 @@ public class BeholderEnemyAI : MonoBehaviour
     public GameObject rangeCheck;
     public GameObject attackCheck;
     public GameObject player;
+    public GameObject hitParticleEffect;
+    public GameObject deathParticleEffect;
+    public GameObject meshObject;
     public Rigidbody rbody;
     public float attackDamage;
     public float alertRange;
@@ -16,9 +19,11 @@ public class BeholderEnemyAI : MonoBehaviour
     public float health;
     private Vector3 direction;
     private Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
+        Physics.IgnoreCollision(player.GetComponent<Collider>(), GetComponent<Collider>());
         health = 100f;
         attackDamage = 10f;
         alertRange = 10f;
@@ -33,7 +38,7 @@ public class BeholderEnemyAI : MonoBehaviour
     {
         if (health < 0)
         {
-            return;
+            //do nothing
         }
         else
         {
@@ -76,11 +81,23 @@ public class BeholderEnemyAI : MonoBehaviour
         if (health < 0)
         {
             anim.SetTrigger("Dead");
+            Instantiate(hitParticleEffect, this.transform);
+            StartCoroutine(Explode());
         }
         else
         {
             anim.SetTrigger("Hurt");
+            Instantiate(hitParticleEffect, this.transform);
         }
 
+    }
+
+    public IEnumerator Explode()
+    {
+        yield return new WaitForSeconds(0.5f);
+        meshObject.GetComponent<SkinnedMeshRenderer>().enabled = false;
+        Instantiate(deathParticleEffect, this.transform);
+        Destroy(this, 1);
+        Destroy(gameObject, 1);
     }
 }

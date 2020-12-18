@@ -36,6 +36,12 @@ public class meleeWeapon : MonoBehaviour
                     else //player is to the right of enemy
                     { other.GetComponent<ChestEnemyAI>().rbody.AddForce(Vector3.right * knockback, ForceMode.VelocityChange); }
                     break;
+                case "Beholder":
+                    other.GetComponent<BeholderEnemyAI>().TakeDamage(playerController.attackDamage);
+                    break;
+                case "Tower":
+                    //other.GetComponent<TowerEnemyAI>().TakeDamage(playerController.attackDamage);
+                    break;
             }
         }
     }

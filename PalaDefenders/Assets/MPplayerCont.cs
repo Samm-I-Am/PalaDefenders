@@ -61,6 +61,7 @@ public class MPplayerCont : MonoBehaviour
         else
         {
             isJumping = anim.GetBool("isJumping");
+            isDefending = anim.GetBool("isDefending");
             direction = Vector3.zero;
             direction.x = Input.GetAxis("Horizontal");
             direction = direction.normalized;
@@ -79,9 +80,10 @@ public class MPplayerCont : MonoBehaviour
             else
             {
                 anim.SetBool("isJumping", true);
+                anim.SetBool("isDefending", false);
             }
 
-            if (Input.GetButtonDown("Jump") && (isJumping == false || doubleJump < maxJumps))
+            if (Input.GetButtonDown("Jump") && (isJumping == false || doubleJump < maxJumps) && isDefending == false)
             {
                 // Jump animation
                 anim.SetTrigger("jump");
@@ -101,6 +103,16 @@ public class MPplayerCont : MonoBehaviour
                     anim.SetTrigger("Attack1");
                     cooldown1 = Time.time + 1f / attackRate;
                 }
+            }
+
+            if (Input.GetButton("Fire2") && isJumping == false)
+            {
+                anim.SetBool("isDefending", true);
+            }
+
+            if (Input.GetButtonUp("Fire2"))
+            {
+                anim.SetBool("isDefending", false);
             }
 
             // Animator for running
